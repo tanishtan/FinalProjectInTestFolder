@@ -1,5 +1,9 @@
 ﻿using FinalProject.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Data.SqlClient;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.Diagnostics.Metrics;
 using System.Reflection;
@@ -40,12 +44,13 @@ namespace FinalProject.DataAccess
         public CreateEnquiry GetEnquirer(string email, string password)
         {
 
-            string sql4 = "SELECT * FROM EnquiryLogin WHERE email=@email";
+            string sql4 = "SELECT * FROM EnquiryLogin WHERE email=@email and password=@password";
 
             var reader4 = ExecuteReader(
                 sqltext: sql4,
                 commandType: CommandType.Text,
-                new SqlParameter("@email", email)
+                new SqlParameter("@email", email),
+                  new SqlParameter("@password", password)
             );
 
             bool isActive=false;
@@ -66,11 +71,11 @@ namespace FinalProject.DataAccess
             }
 
 
-            int id = 0;
-            string sql = "sp_getEnquirerId";
+            /*int id = 0;
+            string sql = "sp_getEnquirerId";*/
             try
             {
-                var reader1 = ExecuteReader(
+                /*var reader1 = ExecuteReader(
                     sqltext: sql,
                     commandType: CommandType.StoredProcedure,
                     new SqlParameter("@email", email),
@@ -89,10 +94,9 @@ namespace FinalProject.DataAccess
                 if(id== 0)
                 {
                     return null;
-                }
+                }*/
 
-
-
+                
                 string sql2 = "SELECT * FROM Enquiries WHERE EmailAddress=@email";
 
                 CreateEnquiry model = null;
@@ -102,6 +106,9 @@ namespace FinalProject.DataAccess
                     commandType: CommandType.Text,
                     new SqlParameter("@email", email)
                 );
+
+                
+
 
                 while (reader2.Read())
                 {
@@ -124,14 +131,16 @@ namespace FinalProject.DataAccess
                         IsActive = (reader2["IsActive"] is not DBNull) ? Convert.ToBoolean(reader2["IsActive"]) : default(bool),
                         AccountType = (reader2["AccountType"] is not DBNull) ? reader2["AccountType"].ToString() : null,
                         Balance = (reader2["Balance"] is not DBNull) ? (decimal)reader2["Balance"] : default(decimal)
-
+                        
                     };
                 }
                 if (!reader2.IsClosed)
                 {
                     reader2.Close();
                 }
-                if (model == null)
+
+
+            if (model == null)
                 {
                     string sql3 = "sp_createEmptyEnquiry";
 
@@ -217,6 +226,7 @@ namespace FinalProject.DataAccess
             string sql = "sp_createEnquiry";
             try
             {
+                
                 ExecuteNonQuery(
                     sqltext: sql,
                     commandType: CommandType.StoredProcedure,
@@ -283,6 +293,17 @@ namespace FinalProject.DataAccess
             string sql = "sp_saveEnquiry";
             try
             {
+                firstName = firstName.IsNullOrEmpty() || firstName.Equals("@@") ? "" : firstName;
+                lastName = lastName.IsNullOrEmpty() || lastName.Equals("@@") ? "" : lastName;
+                address1 = address1.IsNullOrEmpty() || address1.Equals("@@") ? "" : address1;
+                address2 = address2.IsNullOrEmpty() || address2.Equals("@@") ? "" : address2;
+                address3 = address3.IsNullOrEmpty() || address3.Equals("@@") ? "" : address3;
+                phoneNumber = phoneNumber.IsNullOrEmpty() || phoneNumber.Equals("@@") ? "" : phoneNumber;
+                city = city.IsNullOrEmpty() || city.Equals("@@") ? "" : city;
+                country = country.IsNullOrEmpty() || country.Equals("@@") ? "" : country;
+                pincode = pincode == 0 ? 0 : pincode;
+                accountType = accountType.IsNullOrEmpty() || accountType.Equals("@@") ? "":accountType;
+                
                 ExecuteNonQuery(
                     sqltext: sql,
                     commandType: CommandType.StoredProcedure,

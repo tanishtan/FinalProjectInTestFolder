@@ -56,14 +56,13 @@ namespace FinalProject.Controllers
             }
         }
 
+       
+
         [HttpPost(template: "CreateEnquiry")]
         public IActionResult CreateEnquiry(CreateEnquiry model)
         {
             try
             {
-
-               
-
                 byte[] photoBytes = ConvertToBytes(model.Photo);
                 byte[] aadharBytes = ConvertToBytes(model.Aadhar);
                 byte[] pancardBytes = ConvertToBytes(model.PanCard);
