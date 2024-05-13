@@ -8,7 +8,7 @@ namespace FinalProject.DataAccess
 
         protected SqlConnection connection;
         private string connectionString =
-            @"Server=(local);database=BankingApp;integrated security=sspi;trustservercertificate=true";
+            @"Server=tcp:groupa-banking.database.windows.net,1433;Initial Catalog=PCTBank;Persist Security Info=False;User ID=groupa-admin;Password=PCTBank@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         protected void OpenConnection()
         {

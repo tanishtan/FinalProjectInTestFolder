@@ -1,5 +1,6 @@
 ﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Net.NetworkInformation;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinalProject.Model
 {
@@ -26,6 +27,9 @@ namespace FinalProject.Model
         private IFormFile? _formPhoto;
         private IFormFile? _formAadhar;
         private IFormFile? _formPanCard;
+        private string _basePhoto = null;
+        private string _baseAadhar = null;
+        private string _basePanCard = null;
 
         public CreateEnquiry()
         {
@@ -33,8 +37,8 @@ namespace FinalProject.Model
 
         public CreateEnquiry(string? firstName, string? lastName, string? address1, string? address2, string? address3, string? phoneNumber,
                        string email, DateTime date, string? city, string? country, int status, int pincode, bool wants_cheque,
-                       string? feedback, int managerId, bool isActive, string? accountType,decimal balance, IFormFile? formPhoto, IFormFile? formAadhar, 
-                       IFormFile? formPanCard)
+                       string? feedback, int managerId, bool isActive, string? accountType, decimal balance, IFormFile? formPhoto, IFormFile? formAadhar,
+                       IFormFile? formPanCard, string basePhoto, string baseAadhar, string basePanCard)
         {
             _firstName = firstName;
             _lastName = lastName;
@@ -57,6 +61,9 @@ namespace FinalProject.Model
             _formPhoto = formPhoto;
             _formAadhar = formAadhar;
             _formPanCard = formPanCard;
+            _basePhoto = basePhoto;
+            _baseAadhar = baseAadhar;
+            _basePanCard = basePanCard;
         }
 
         public string? FirstName
@@ -156,7 +163,7 @@ namespace FinalProject.Model
             set { _accountType = value; }
         }
 
-    
+
         public decimal Balance
         {
             get { return _balance; }
@@ -177,6 +184,21 @@ namespace FinalProject.Model
         {
             get { return _formPanCard; }
             set { _formPanCard = value; }
+        }
+        public string? basePhoto
+        {
+            get { return _basePhoto; }
+            set { _basePhoto = value; }
+        }
+        public string? baseAadhar
+        {
+            get { return _baseAadhar; }
+            set { _baseAadhar = value; }
+        }
+        public string? basePanCard
+        {
+            get { return _basePanCard; }
+            set { _basePanCard = value; }
         }
     }
 }

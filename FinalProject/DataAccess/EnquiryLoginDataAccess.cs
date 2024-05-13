@@ -151,6 +151,11 @@ namespace FinalProject.DataAccess
                     IFormFile f2 = CreateFormFileFromBytes(bytes2, "aadhar.png");
                     IFormFile f3 = CreateFormFileFromBytes(bytes3, "pancard.png");
 
+                    string base64Image1 = Convert.ToBase64String(bytes1);
+                    string base64Image2 = Convert.ToBase64String(bytes2);
+                    string base64Image3 = Convert.ToBase64String(bytes3);
+
+
 
 
                     string sqlDetails = "SELECT * FROM Enquiries WHERE EmailAddress=@email";
@@ -184,7 +189,11 @@ namespace FinalProject.DataAccess
                                 Balance = (reader2["Balance"] is not DBNull) ? (decimal)reader2["Balance"] : default(decimal),
                                 Photo = f1,
                                 Aadhar = f2,
-                                PanCard = f3
+                                PanCard = f3,
+                                basePhoto = base64Image1,
+                                baseAadhar = base64Image2,
+                                basePanCard = base64Image3
+
 
                             };
                         }
@@ -296,6 +305,7 @@ namespace FinalProject.DataAccess
             byte[] photo,
            byte[] aadhar,
            byte[] pancard
+           
        )
         {
             string sql = "sp_createEnquiry";

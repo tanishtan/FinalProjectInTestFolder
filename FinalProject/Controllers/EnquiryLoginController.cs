@@ -1,6 +1,7 @@
 ﻿using FinalProject.Model;
 using FinalProject.Process;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinalProject.Controllers
 {
@@ -56,6 +57,7 @@ namespace FinalProject.Controllers
             }
         }
 
+
        
 
         [HttpPost(template: "CreateEnquiry")]
@@ -63,6 +65,9 @@ namespace FinalProject.Controllers
         {
             try
             {
+
+
+
                 byte[] photoBytes = ConvertToBytes(model.Photo);
                 byte[] aadharBytes = ConvertToBytes(model.Aadhar);
                 byte[] pancardBytes = ConvertToBytes(model.PanCard);
@@ -84,23 +89,22 @@ namespace FinalProject.Controllers
                 model.WantsCheque,
                 model.Feedback,
                 model.IsActive,
-                model.AccountType,  
+                model.AccountType,
                 model.Balance,
                 photoBytes,
                 aadharBytes,
                 pancardBytes
                  );
-                    return Ok(200);
-             
+                return Ok(200);
 
-               
+
+
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
 
         [HttpPost(template: "SaveEnquiry")]
         public IActionResult SaveEnquiry(CreateEnquiry? model)
@@ -125,6 +129,7 @@ namespace FinalProject.Controllers
                 {
                     pancardBytes = ConvertToBytes(model.PanCard);
                 }
+                
 
                 process.SaveEnquiry(
             model.FirstName,
@@ -147,6 +152,7 @@ namespace FinalProject.Controllers
              photoBytes,
               aadharBytes,
               pancardBytes
+              
              );
                 return Ok(200);
             
