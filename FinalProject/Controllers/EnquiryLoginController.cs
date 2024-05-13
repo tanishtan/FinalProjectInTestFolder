@@ -165,6 +165,10 @@ namespace FinalProject.Controllers
             }
         }
 
-
+        [HttpGet("Test")]
+        public IActionResult Test()
+        {
+            return Ok("Api Connected and Up!");
+        }
     }
 }
