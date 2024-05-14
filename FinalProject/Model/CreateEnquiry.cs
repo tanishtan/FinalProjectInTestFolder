@@ -27,9 +27,9 @@ namespace FinalProject.Model
         private IFormFile? _formPhoto;
         private IFormFile? _formAadhar;
         private IFormFile? _formPanCard;
-        private string _basePhoto = null;
-        private string _baseAadhar = null;
-        private string _basePanCard = null;
+        private string _basePhoto = "111";
+        private string _baseAadhar = "111";
+        private string _basePanCard = "111";
 
         public CreateEnquiry()
         {
