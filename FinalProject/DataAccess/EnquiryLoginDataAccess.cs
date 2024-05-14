@@ -151,9 +151,9 @@ namespace FinalProject.DataAccess
                     IFormFile f2 = CreateFormFileFromBytes(bytes2, "aadhar.png");
                     IFormFile f3 = CreateFormFileFromBytes(bytes3, "pancard.png");
 
-                    string base64Image1 = Convert.ToBase64String(bytes1)!=null?Convert.ToBase64String(bytes1) : "111";
-                    string base64Image2 = Convert.ToBase64String(bytes2) != null ? Convert.ToBase64String(bytes2) : "111";
-                    string base64Image3 = Convert.ToBase64String(bytes3) != null ? Convert.ToBase64String(bytes3) : "111";
+                    string base64Image1 = bytes1!=null?Convert.ToBase64String(bytes1) : "111";
+                    string base64Image2 = bytes2 != null ? Convert.ToBase64String(bytes2) : "111";
+                    string base64Image3 = bytes3 != null ? Convert.ToBase64String(bytes3) : "111";
 
 
 
