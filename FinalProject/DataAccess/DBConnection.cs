@@ -6,9 +6,18 @@ namespace FinalProject.DataAccess
     public class DBConnection
     {
 
+
+
         protected SqlConnection connection;
-        private string connectionString =
-            @"Server=tcp:groupa-banking.database.windows.net,1433;Initial Catalog=PCTBank;Persist Security Info=False;User ID=groupa-admin;Password=PCTBank@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private string connectionString;
+        //  @"Server=(local);database=BankingApp;integrated security=sspi;trustservercertificate=true";
+        // "Server=tcp:pctbankingdb.database.windows.net,1433;Initial Catalog=PCTBankingDatabase;Persist Security Info=False;User ID=GroubBDBAdmin;Password=Admin@groupBdb;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
+
+
+        public DBConnection(IConfiguration config)
+        {
+            connectionString = config.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+        }
 
         protected void OpenConnection()
         {
@@ -35,7 +44,7 @@ namespace FinalProject.DataAccess
                 command.Parameters.AddRange(parameters);
             }
             return command.ExecuteReader();
-          
+
         }
         public void ExecuteNonQuery(string sqltext, CommandType commandType, params SqlParameter[] parameters)
         {
@@ -51,7 +60,7 @@ namespace FinalProject.DataAccess
             return;
         }
 
-        
+
 
     }
 }

@@ -18,18 +18,13 @@ namespace FinalProject.Model
         private string? _city = "";
         private string? _country = "";
         private int _status;
-        private int _pincode;
+        private int _pincode = 0;
         private bool _wants_cheque;
         private string? _feedback = "";
         private bool _isActive = false;
-        private string? _accountType = "";
+        private int _accountType = 0;
         private decimal _balance = 0;
-        private IFormFile? _formPhoto;
-        private IFormFile? _formAadhar;
-        private IFormFile? _formPanCard;
-        private string _basePhoto = "111";
-        private string _baseAadhar = "111";
-        private string _basePanCard = "111";
+
 
         public CreateEnquiry()
         {
@@ -37,8 +32,7 @@ namespace FinalProject.Model
 
         public CreateEnquiry(string? firstName, string? lastName, string? address1, string? address2, string? address3, string? phoneNumber,
                        string email, DateTime date, string? city, string? country, int status, int pincode, bool wants_cheque,
-                       string? feedback, int managerId, bool isActive, string? accountType, decimal balance, IFormFile? formPhoto, IFormFile? formAadhar,
-                       IFormFile? formPanCard, string basePhoto, string baseAadhar, string basePanCard)
+                       string? feedback, int managerId, bool isActive, int accountType, decimal balance)
         {
             _firstName = firstName;
             _lastName = lastName;
@@ -58,12 +52,7 @@ namespace FinalProject.Model
             _accountType = accountType;
 
             _balance = balance;
-            _formPhoto = formPhoto;
-            _formAadhar = formAadhar;
-            _formPanCard = formPanCard;
-            _basePhoto = basePhoto;
-            _baseAadhar = baseAadhar;
-            _basePanCard = basePanCard;
+
         }
 
         public string? FirstName
@@ -157,7 +146,7 @@ namespace FinalProject.Model
             set { _isActive = value; }
         }
 
-        public string? AccountType
+        public int AccountType
         {
             get { return _accountType; }
             set { _accountType = value; }
@@ -170,35 +159,6 @@ namespace FinalProject.Model
             set { _balance = value; }
         }
 
-        public IFormFile? Photo
-        {
-            get { return _formPhoto; }
-            set { _formPhoto = value; }
-        }
-        public IFormFile? Aadhar
-        {
-            get { return _formAadhar; }
-            set { _formAadhar = value; }
-        }
-        public IFormFile? PanCard
-        {
-            get { return _formPanCard; }
-            set { _formPanCard = value; }
-        }
-        public string? basePhoto
-        {
-            get { return _basePhoto; }
-            set { _basePhoto = value; }
-        }
-        public string? baseAadhar
-        {
-            get { return _baseAadhar; }
-            set { _baseAadhar = value; }
-        }
-        public string? basePanCard
-        {
-            get { return _basePanCard; }
-            set { _basePanCard = value; }
-        }
+
     }
 }

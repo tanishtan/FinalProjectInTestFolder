@@ -1,6 +1,8 @@
-﻿using FinalProject.Model;
+﻿using FinalProject.DataAccess;
+using FinalProject.Model;
 using FinalProject.Process;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinalProject.Controllers
@@ -9,15 +11,30 @@ namespace FinalProject.Controllers
     [ApiController]
     public class EnquiryLoginController : Controller
     {
-        EnquiryLoginProcess process = new EnquiryLoginProcess();
+        private readonly EnquiryLoginProcess _process;
 
-        [HttpPost(template:"AddEnquirer")]
+        public EnquiryLoginController(EnquiryLoginProcess process)
+        {
+
+            _process = process;
+        }
+
+
+
+        [HttpPost(template: "AddEnquirer")]
         public IActionResult CreateEnquirer(EnquiryLogin model)
         {
-            try {
-                process.CreateEnquirer(model.Email, model.Password);
-                return Ok(200);
-            }catch (Exception ex)
+            try
+            {
+                string result = "";
+
+                result = _process.CreateEnquirer(model.Email, model.Password);
+
+                if (result.Length > 0) { return BadRequest(); }
+                else return Ok();
+
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -29,7 +46,7 @@ namespace FinalProject.Controllers
             try
             {
                 CreateEnquiry model2 = null;
-                model2 = process.GetEnquirer(model.Email, model.Password);
+                model2 = _process.GetEnquirer(model.Email, model.Password);
 
 
                 if (model2 is null)
@@ -48,6 +65,25 @@ namespace FinalProject.Controllers
             }
         }
 
+        [HttpPost(template: "GetDocuments")]
+        public IActionResult GetDocuments(Emailing model1)
+        {
+            try
+            {
+                Document model = null;
+                model = _process.GetDocuments(model1.Email);
+
+
+
+                return Ok(model);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         private byte[] ConvertToBytes(IFormFile file)
         {
             using (MemoryStream memoryStream = new MemoryStream())
@@ -57,12 +93,10 @@ namespace FinalProject.Controllers
             }
         }
 
-
-       
-
-        [HttpPost(template: "CreateEnquiry")]
-        public IActionResult CreateEnquiry(CreateEnquiry model)
+        [HttpPost(template: "CreateDocuments")]
+        public IActionResult CreateDocuments(Document model)
         {
+
             try
             {
 
@@ -73,7 +107,69 @@ namespace FinalProject.Controllers
                 byte[] pancardBytes = ConvertToBytes(model.PanCard);
 
 
-                process.CreateEnquiry(
+                _process.CreateDocuments(
+                 model.Email,
+                photoBytes,
+                aadharBytes,
+                pancardBytes
+                 );
+                return Ok();
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+
+        }
+
+
+        [HttpPost(template: "SaveDocuments")]
+        public IActionResult SaveDocuments(Document model)
+        {
+
+            try
+            {
+
+
+
+                byte[] photoBytes = ConvertToBytes(model.Photo);
+                byte[] aadharBytes = ConvertToBytes(model.Aadhar);
+                byte[] pancardBytes = ConvertToBytes(model.PanCard);
+
+
+                _process.CreateDocuments(
+                 model.Email,
+                photoBytes,
+                aadharBytes,
+                pancardBytes
+                 );
+                return Ok(200);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+
+        }
+
+
+        [HttpPost(template: "CreateEnquiry")]
+        public IActionResult CreateEnquiry(CreateEnquiry model)
+        {
+            try
+            {
+
+                _process.CreateEnquiry(
                 model.FirstName,
                 model.LastName,
                 model.Address1,
@@ -90,12 +186,10 @@ namespace FinalProject.Controllers
                 model.Feedback,
                 model.IsActive,
                 model.AccountType,
-                model.Balance,
-                photoBytes,
-                aadharBytes,
-                pancardBytes
+                model.Balance
+
                  );
-                return Ok(200);
+                return Ok();
 
 
 
@@ -106,32 +200,19 @@ namespace FinalProject.Controllers
             }
         }
 
+
+
+
         [HttpPost(template: "SaveEnquiry")]
-        public IActionResult SaveEnquiry(CreateEnquiry? model)
+        public IActionResult SaveEnquiry(CreateEnquiry model)
         {
             try
             {
 
-                byte[]? photoBytes = null;
-                if (model.Photo != null)
-                {
-                    photoBytes = ConvertToBytes(model.Photo);
-                }
 
-                byte[]? aadharBytes = null;
-                if (model.Aadhar != null)
-                {
-                    aadharBytes = ConvertToBytes(model.Aadhar);
-                }
 
-                byte[]? pancardBytes = null;
-                if (model.PanCard != null)
-                {
-                    pancardBytes = ConvertToBytes(model.PanCard);
-                }
-                
 
-                process.SaveEnquiry(
+                _process.SaveEnquiry(
             model.FirstName,
             model.LastName,
             model.Address1,
@@ -148,16 +229,13 @@ namespace FinalProject.Controllers
             model.Feedback,
             model.IsActive,
             model.AccountType,
-            model.Balance,
-             photoBytes,
-              aadharBytes,
-              pancardBytes
-              
-             );
-                return Ok(200);
-            
+            model.Balance
 
-                
+             );
+                return Ok();
+
+
+
             }
             catch (Exception ex)
             {
@@ -165,10 +243,12 @@ namespace FinalProject.Controllers
             }
         }
 
-        [HttpGet("Test")]
+        [HttpGet(template: "test")]
         public IActionResult Test()
         {
             return Ok("Api Connected and Up!");
         }
+
+
     }
 }
