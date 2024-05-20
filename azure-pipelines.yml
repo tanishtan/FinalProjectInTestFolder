@@ -12,5 +12,36 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
+  inputs:
+    version: 8.x
+    performMultiLevelLookup: true
+    includePreviewVersions: true
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: '**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: 'my-vsts-feed'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: build
+    projects: '**/*.sln'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    publishWebProjects: true
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: true
+    modifyOutputPath: false
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'ESP-Azure-Sub-1(061812e5-2eb1-4d6d-a492-d9d4881b86ea)'
+    appType: 'webAppLinux'
+    WebAppName: 'GroupA-Enquiry-Api'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
