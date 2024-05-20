@@ -20,10 +20,10 @@ namespace FinalProject.DataAccess
 
 
             using (var reader = ExecuteReader(
-  sqltext: sql1,
-  commandType: CommandType.Text,
-  new SqlParameter("@email1", email1)
-  ))
+                  sqltext: sql1,
+                  commandType: CommandType.Text,
+                  new SqlParameter("@email1", email1)
+                  ))
             {
 
 
@@ -79,13 +79,11 @@ namespace FinalProject.DataAccess
             int enqId = 0;
 
             using (var reader = ExecuteReader(
-       sqltext: sql,
-       commandType: CommandType.Text,
-       new SqlParameter("@email", email)
-       ))
+                   sqltext: sql,
+                   commandType: CommandType.Text,
+                   new SqlParameter("@email", email)
+                   ))
             {
-
-
                 while (reader.Read())
                 {
                     enqId = (int)reader["Enquiry_ID"];
@@ -100,7 +98,6 @@ namespace FinalProject.DataAccess
                 {
                     return null;
                 }
-
             }
 
             string sql1 = "Select * from Documents where enqId=@enqid and docType=1";
@@ -153,10 +150,6 @@ namespace FinalProject.DataAccess
                 }
             }
 
-
-
-
-
             IFormFile f1 = CreateFormFileFromBytes(bytes1, "photo.png");
             IFormFile f2 = CreateFormFileFromBytes(bytes2, "aadhar.png");
             IFormFile f3 = CreateFormFileFromBytes(bytes3, "pancard.png");
@@ -179,9 +172,6 @@ namespace FinalProject.DataAccess
 
             return model;
         }
-
-
-
 
 
         public CreateEnquiry GetEnquirer(string email, string password)
@@ -213,8 +203,6 @@ namespace FinalProject.DataAccess
                 }
             }
 
-
-
             try
             {
 
@@ -222,9 +210,9 @@ namespace FinalProject.DataAccess
                 string sqlDetails = "SELECT * FROM Enquiries WHERE EmailAddress=@email";
 
                 using (var reader2 = ExecuteReader(
-             sqltext: sqlDetails,
-             commandType: CommandType.Text,
-             new SqlParameter("@email", email)))
+                        sqltext: sqlDetails,
+                        commandType: CommandType.Text,
+                        new SqlParameter("@email", email)))
                 {
                     while (reader2.Read())
                     {
@@ -259,8 +247,6 @@ namespace FinalProject.DataAccess
                     }
 
                 }
-
-
 
                 if (model == null)
                 {
@@ -303,8 +289,6 @@ namespace FinalProject.DataAccess
 
                 }
 
-
-
                 return model;
             }
             catch (SqlException sqle)
@@ -337,8 +321,6 @@ namespace FinalProject.DataAccess
             };
         }
 
-
-
         public void CreateEnquiry(
               string firstName,
               string lastName,
@@ -347,18 +329,18 @@ namespace FinalProject.DataAccess
               string address3,
               string phoneNumber,
               string email,
-               DateTime dob,
+              DateTime dob,
               string city,
               string country,
-               int status,
-               int pincode,
+              int status,
+              int pincode,
               bool wants_cheque,
               string feedback,
-             bool isActive,
-            int accountType,
-           decimal balance
+              bool isActive,
+              int accountType,
+              decimal balance
 
-       )
+        )
         {
             string sql = "sp_createEnquiry";
             try
@@ -400,9 +382,6 @@ namespace FinalProject.DataAccess
         }
 
 
-
-
-
         public void SaveEnquiry(
             string firstName,
             string lastName,
@@ -411,18 +390,18 @@ namespace FinalProject.DataAccess
             string address3,
             string phoneNumber,
             string email,
-             DateTime dob,
+            DateTime dob,
             string city,
             string country,
-             int status,
-             int pincode,
+            int status,
+            int pincode,
             bool wants_cheque,
             string feedback,
-           bool isActive,
-          int accountType,
-         decimal balance
+            bool isActive,
+            int accountType,
+            decimal balance
 
-     )
+        )
         {
             string sql = "sp_saveEnquiry";
             try
@@ -467,10 +446,10 @@ namespace FinalProject.DataAccess
 
         public void CreateDocuments(
            string email,
-         byte[] photo,
-        byte[] aadhar,
-        byte[] pancard
-    )
+           byte[] photo,
+           byte[] aadhar,
+           byte[] pancard
+        )
         {
             string sql = "sp_createDocument";
             try
@@ -488,7 +467,7 @@ namespace FinalProject.DataAccess
             {
                 throw;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -497,39 +476,5 @@ namespace FinalProject.DataAccess
                 CloseConnection();
             }
         }
-
-        /*     public void SaveDocuments(
-               string email,
-             byte[] photo,
-            byte[] aadhar,
-            byte[] pancard
-        )
-             {
-                 string sql = "sp_saveDocument";
-                 try
-                 {
-                     ExecuteNonQuery(
-                         sqltext: sql,
-                         commandType: CommandType.StoredProcedure,
-                           new SqlParameter("@email", email),
-                         new SqlParameter("@documentPhoto", photo),
-                         new SqlParameter("@documentAadhar", aadhar),
-                         new SqlParameter("@documentPanCard", pancard)
-                     );
-                 }
-                 catch (SqlException sqle)
-                 {
-                     throw;
-                 }
-                 catch (Exception e)
-                 {
-                     throw;
-                 }
-                 finally
-                 {
-                     CloseConnection();
-                 }
-             }*/
-
     }
 }

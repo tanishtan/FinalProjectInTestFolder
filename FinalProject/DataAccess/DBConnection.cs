@@ -9,11 +9,8 @@ namespace FinalProject.DataAccess
 
 
         protected SqlConnection connection;
-        private string connectionString;
-        //  @"Server=(local);database=BankingApp;integrated security=sspi;trustservercertificate=true";
-        // "Server=tcp:pctbankingdb.database.windows.net,1433;Initial Catalog=PCTBankingDatabase;Persist Security Info=False;User ID=GroubBDBAdmin;Password=Admin@groupBdb;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
-
-
+        private readonly string connectionString;
+        
         public DBConnection(IConfiguration config)
         {
             connectionString = config.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
@@ -29,8 +26,12 @@ namespace FinalProject.DataAccess
         protected void CloseConnection()
         {
             if (connection is not null)
+            {
                 if (connection.State != System.Data.ConnectionState.Closed)
+                {
                     connection.Close();
+                }
+            }
         }
 
         public SqlDataReader ExecuteReader(string sqltext, CommandType commandType, params SqlParameter[] parameters)
@@ -57,10 +58,6 @@ namespace FinalProject.DataAccess
                 command.Parameters.AddRange(parameters);
             }
             command.ExecuteNonQuery();
-            return;
         }
-
-
-
     }
 }

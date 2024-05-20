@@ -68,7 +68,6 @@ namespace FinalProject.Process
             }
             catch
             {
-
                 throw;
             }
         }
@@ -85,27 +84,9 @@ namespace FinalProject.Process
             }
             catch
             {
-
                 throw;
             }
         }
-
-        /*  public void SaveDocuments(string email, byte[] formPhoto, byte[] formAadhar, byte[] formPanCard)
-          {
-              try
-              {
-
-
-                  _elda.SaveDocuments(email, formPhoto, formAadhar, formPanCard);
-
-
-              }
-              catch
-              {
-
-                  throw;
-              }
-          }*/
 
         public void SaveEnquiry(string firstName, string lastName, string address1, string address2, string address3, string phoneNumber,
                       string email, DateTime dob, string city, string country, int status, int pincode, bool wantsCheque,

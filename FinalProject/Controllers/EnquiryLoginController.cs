@@ -99,9 +99,6 @@ namespace FinalProject.Controllers
 
             try
             {
-
-
-
                 byte[] photoBytes = ConvertToBytes(model.Photo);
                 byte[] aadharBytes = ConvertToBytes(model.Aadhar);
                 byte[] pancardBytes = ConvertToBytes(model.PanCard);
@@ -109,57 +106,17 @@ namespace FinalProject.Controllers
 
                 _process.CreateDocuments(
                  model.Email,
-                photoBytes,
-                aadharBytes,
-                pancardBytes
+                 photoBytes,
+                 aadharBytes,
+                 pancardBytes
                  );
                 return Ok();
 
-
-
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
-
-
-        }
-
-
-        [HttpPost(template: "SaveDocuments")]
-        public IActionResult SaveDocuments(Document model)
-        {
-
-            try
-            {
-
-
-
-                byte[] photoBytes = ConvertToBytes(model.Photo);
-                byte[] aadharBytes = ConvertToBytes(model.Aadhar);
-                byte[] pancardBytes = ConvertToBytes(model.PanCard);
-
-
-                _process.CreateDocuments(
-                 model.Email,
-                photoBytes,
-                aadharBytes,
-                pancardBytes
-                 );
-                return Ok(200);
-
-
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-
-
         }
 
 
@@ -191,8 +148,6 @@ namespace FinalProject.Controllers
                  );
                 return Ok();
 
-
-
             }
             catch (Exception ex)
             {
@@ -208,10 +163,6 @@ namespace FinalProject.Controllers
         {
             try
             {
-
-
-
-
                 _process.SaveEnquiry(
             model.FirstName,
             model.LastName,
@@ -230,8 +181,7 @@ namespace FinalProject.Controllers
             model.IsActive,
             model.AccountType,
             model.Balance
-
-             );
+            );
                 return Ok();
 
 
@@ -248,7 +198,5 @@ namespace FinalProject.Controllers
         {
             return Ok("Api Connected and Up!");
         }
-
-
     }
 }
