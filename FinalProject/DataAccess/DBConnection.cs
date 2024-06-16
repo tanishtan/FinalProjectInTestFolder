@@ -7,13 +7,13 @@ namespace FinalProject.DataAccess
     {
 
 
-
+        public DBConnection() { }
         protected SqlConnection connection;
         private readonly string connectionString;
         
         public DBConnection(IConfiguration config)
         {
-            connectionString = config.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+            connectionString = config.GetConnectionString("BankingAppDatabase");
         }
 
         protected void OpenConnection()

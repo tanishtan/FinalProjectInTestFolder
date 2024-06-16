@@ -107,7 +107,10 @@ namespace FinalProject.Process
                 throw;
             }
         }
-
+        public int NoOfSignUp()
+        {
+            return _elda.FetchNoOfEnquiriesFromSignUp();
+        }
 
     }
 }
